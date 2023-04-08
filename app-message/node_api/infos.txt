@@ -1,0 +1,58 @@
+le cote serveur sera gerer par express
+
+//node permettra de gerer le systeme d'exploitation(crud fichier et relation entre les fichiers)
+
+ npm install --save sequelize mysql2 sequelize-cli express body-parser
+//regarder la doc sequelize 
+sequelize: ORM utilisee( permet de gerer les failles de securite qui naissent lorsqu'on est directement connectee a la bd )
+mysql2: le connecteur entre la base de donnee et le serveur(normalement avec mysql2 on n'a pas besoin de sequelize pour ecrire les requetes)
+body-parser: permettre de recevoir les fichiers json (les forms data)
+
+npx sequelize-cli init 
+configurations de sequelize 
+	creation d'un dossier contenant 4 dossiers:
+	models: prends les models
+	migrations: contient les migrations
+        config: pour les configurations 
+	seeders: ajoute des donnees en masse dans l'application
+
+
+npm i nodemon crypto-js dotenv
+
+  nodemon: fait comme live server (recharge le serveur lorsqu'il y'a changement de fichier)
+  crypto-js: aide a la creation de token( avec on peut prendre du texte et le crypter)
+  dotenv: permet d'avoir un fichier d'environement dans lequel toute les configurations sont mises (port, host,Db_name,route_path,etc...)
+
+dans package.json
+
+ajouter le script start (utilisation de nodemon) et "type":"module" (pour changer l'ecriture des importations)
+
+generation de models sur lequel sequelize se base pour generer les tables en bd
+
+
+User: firstName , lastName, email,phone,password
+Message: body,request_to,send_to,from
+Contact: added_by, added,muted
+
+les commandes ci-dessous creee les models dans le fichier models( et les migrations dans le fichier migrations
+
+modele user 
+	npx sequelize-cli model:generate --name User --attributes firstName:string,lastName:string,email:string,phone:string,password:string
+
+modele message
+
+	npx sequelize-cli model:generate --name Message --attributes body:string,request_to:string,send_to:string,from:string
+
+modele Contact
+
+	npx sequelize-cli model:generate --name Contact --attributes added_by:string,added:string,muted:boolean
+
+
+relation entre les modeles
+
+        un Message est envoye par un User ,  un User envoie 0 ou plusieurs Messages
+        Un User a 0 ou plusieurs Contact , Un Contact a ete enregistre par 0 User
+
+
+
+// en voulant creer la bd , penser a mettre l'attribut type du fichier package json en commentaire car il genere une erreur
